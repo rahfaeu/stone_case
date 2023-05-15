@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: Dimensão com dados de geolocalização dos clietes Ton.
+    columns:
+      - name: transaction_user_sk
+        description: Chave substituta (SK) para o id do cliente.
+        tests:
+          - not_null
+          - unique
+      - name: transaction_user_id
+        description: Chave que identifica o cliente.
+        tests:
+          - not_null
+          - unique
+      - name: transaction_user_state
+        description: Estado do cliente.
+        tests:
+          - not_null
+          - unique
+      - name: transaction_user_city
+        description: Cidade do cliente.
+        tests:
+          - not_null
+          - unique
