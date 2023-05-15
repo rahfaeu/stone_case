@@ -10,7 +10,12 @@
 with
     transform_data as (
         select
-            transaction_user_id
+            {{ numeric_surrogate_key([
+                'transaction_user_id'
+                , 'transaction_user_state'
+                , 'transaction_user_city'
+            ]) }} as transaction_user_sk
+            , transaction_user_id
             , transaction_user_state
             , transaction_user_city
             , row_number() over(
