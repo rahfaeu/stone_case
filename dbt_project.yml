@@ -2,7 +2,7 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'my_new_project'
+name: 'stone_case'
 version: '1.0.0'
 config-version: 2
 
@@ -24,6 +24,12 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+vars:
+  partitions_to_replace_last_two_days: [
+    'current_date("America/Sao_Paulo")'
+    , 'date_sub(current_date("America/Sao_Paulo"), interval 1 day)'
+  ]
+
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
@@ -31,8 +37,31 @@ clean-targets:         # directories to be removed by `dbt clean`
 # In this example config, we tell dbt to build all models in the example/ directory
 # as tables. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
+
 models:
-  my_new_project:
-    # Applies to all files under models/example/
-    example:
-      materialized: view
+  +persist_docs:
+    relation: true
+    columns: true
+  stone_case:
+    staging:
+      +materialized: table
+      +schema: staging
+
+    marts_local:
+      materialized: table
+      +schema: marts_local
+      +tags: conformed
+      
+    marts_analytics:
+      materialized: table
+      +schema: marts_analytics
+      +tags: conformed
+      transactions:
+        transactions_facts:
+          transactions_facts_ton:
+            +tags: ton_stone
+# models:
+#   stone_case:
+#     # Applies to all files under models/example/
+#     ton_stone:
+#       materialized: table

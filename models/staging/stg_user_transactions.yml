@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: stone_case
+    description: Tabelas com os dados de transações dos clientes Ton.
+    schema: stone_case
+    tables:
+      - name: transacoes_usuarios
+        description: Tabela transacional originada de arquivo parquet.
