@@ -18,7 +18,7 @@ with
     transform_data as (
         select
             cast(codigo_da_transacao as int64) as transaction_id
-            , datetime(data_e_hora_da_transacao, 'America/Sao_Paulo') as transaction_at
+            , datetime_trunc(datetime(data_e_hora_da_transacao, 'America/Sao_Paulo'), minute) as transaction_at
             , cast(datetime(data_e_hora_da_transacao, 'America/Sao_Paulo') as date) as transaction_date
             , cast(metodo_de_captura as string) as transaction_capture_method
             , cast(bandeira_do_cartao as string) as transaction_card_brand
