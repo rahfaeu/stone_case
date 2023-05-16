@@ -8,8 +8,8 @@
     }
     , cluster_by = [
         'transaction_id'
-        , 'transaction_user_id'
-        , 'transaction_status'
+        , 'transaction_user_sk'
+        , 'transaction_infos_sk'
     ]
 ) }}
 
@@ -44,12 +44,9 @@ with
             where cast(datetime(data_e_hora_da_transacao, 'America/Sao_Paulo') as date) in ({{ var('partitions_to_replace_short') | join(',') }})
         {% endif %}
     )
-    , adding_sk as (
+    , transform as (
         select
             transaction_id
-            , transaction_at
-            , transaction_date
-            , transaction_value
             , {{ numeric_surrogate_key([
                 'transaction_user_id'
                 , 'transaction_user_state'
@@ -61,8 +58,11 @@ with
                 , 'transaction_payment_method'
                 , 'transaction_status'
             ]) }} as transaction_infos_sk
+            , transaction_at
+            , transaction_date
+            , transaction_value
         from raw_data
     )
 select *
-from adding_sk
+from transform
 
