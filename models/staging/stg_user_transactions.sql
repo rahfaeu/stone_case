@@ -17,8 +17,14 @@ with
     /* Applying casting and defining columns names following convention naming */
     transform_data as (
         select
-            cast(codigo_da_transacao as int64) as transaction_id
-            , datetime(data_e_hora_da_transacao, 'America/Sao_Paulo') as transaction_at
+            {{ numeric_surrogate_key([
+                'codigo_da_transacao'
+                , 'codigo_do_usuario'
+                , 'estado_do_usuario'
+                , 'cidade_do_usuario'
+            ]) }} as transaction_sk
+            , cast(codigo_da_transacao as int64) as transaction_id
+            , datetime_trunc(datetime(data_e_hora_da_transacao, 'America/Sao_Paulo'), minute) as transaction_at
             , cast(datetime(data_e_hora_da_transacao, 'America/Sao_Paulo') as date) as transaction_date
             , cast(metodo_de_captura as string) as transaction_capture_method
             , cast(bandeira_do_cartao as string) as transaction_card_brand

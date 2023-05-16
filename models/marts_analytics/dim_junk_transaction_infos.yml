@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: dim_junk_transaction_infos
+    description: Dimensão com dados de geolocalização dos clietes Ton.
+    columns:
+      - name: transaction_infos_sk
+        description: Chave substituta (SK) para as informações da transação.
+        tests:
+          - not_null
+          - unique
+      - name: transaction_capture_method
+        description: Descrição do método de captura.
+        tests:
+          - not_null:
+              severity: warn
+      - name: transaction_card_brand
+        description: Descrição da bandeira do cartão.
+        tests:
+          - not_null:
+              severity: warn
+      - name: transaction_payment_method
+        description: Descrição do meio de pagamento.
+        tests:
+          - not_null:
+              severity: warn
+      - name: transaction_status
+        description: Descrição do estado da transação.
+        tests:
+          - not_null:
+              severity: warn
