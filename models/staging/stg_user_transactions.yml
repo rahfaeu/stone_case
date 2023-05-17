@@ -7,3 +7,9 @@ sources:
     tables:
       - name: transacoes_usuarios
         description: Tabela transacional originada de arquivo parquet.
+        columns:
+          - name: codigo_da_transacao
+            description: Código da transação.
+            tests:
+              - not_null:
+                  where: "data_e_hora_da_transacao between date_sub(current_date(), interval 1 day) and current_date()"
